@@ -1,0 +1,5 @@
+datetime
+winsound
+opencv-python
+numpy
+tensorflow
