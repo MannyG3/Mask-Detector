@@ -1,0 +1,13 @@
+# Vercel-specific requirements (lightweight — no TensorFlow/MediaPipe)
+# The app gracefully falls back:
+#   - face_detector.py  → OpenCV Haar cascade (no mediapipe needed)
+#   - classifier.py     → dummy model mode   (no tensorflow needed)
+fastapi==0.109.0
+uvicorn[standard]==0.27.0
+python-multipart==0.0.6
+jinja2==3.1.3
+opencv-python-headless==4.9.0.80
+numpy==1.26.4
+pillow==10.2.0
+aiofiles==23.2.1
+python-dotenv==1.0.0
