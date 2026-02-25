@@ -382,7 +382,7 @@ Contributions are welcome! Please:
 5. Submit a pull request
 
 ## 📧 Support
-
+                     
 For issues and questions:
 - Open an issue on GitHub
 - Check existing issues for solutions
