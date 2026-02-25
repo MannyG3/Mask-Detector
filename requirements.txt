@@ -1,5 +1,4 @@
-datetime
-winsound
+# Root-level requirements (legacy mask_detection.py)
+# Note: Vercel uses api/requirements.txt instead
 opencv-python
 numpy
-tensorflow

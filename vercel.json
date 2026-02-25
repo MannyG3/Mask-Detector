@@ -6,8 +6,7 @@
       "use": "@vercel/python",
       "config": {
         "includeFiles": [
-          "maskguard/app/**",
-          "maskguard/data/**"
+          "maskguard/**"
         ]
       }
     }
