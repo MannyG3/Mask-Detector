@@ -34,13 +34,18 @@ CAPTURES_DIR = os.getenv("CAPTURES_DIR", str(DATA_DIR / "captures"))
 # Server
 PORT = int(os.getenv("PORT", "8000"))
 
-# Ensure directories exist
+# Ensure directories exist (may fail on read-only FS; /tmp dirs work on Vercel)
 for directory in [DB_PATH, UPLOADS_DIR, OUTPUTS_DIR, CAPTURES_DIR]:
-    Path(directory).parent.mkdir(parents=True, exist_ok=True)
-    
-Path(UPLOADS_DIR).mkdir(parents=True, exist_ok=True)
-Path(OUTPUTS_DIR).mkdir(parents=True, exist_ok=True)
-Path(CAPTURES_DIR).mkdir(parents=True, exist_ok=True)
+    try:
+        Path(directory).parent.mkdir(parents=True, exist_ok=True)
+    except OSError:
+        pass
+
+for d in [UPLOADS_DIR, OUTPUTS_DIR, CAPTURES_DIR]:
+    try:
+        Path(d).mkdir(parents=True, exist_ok=True)
+    except OSError:
+        pass
 
 # Labels
 LABELS = ["MASK_ON", "NO_MASK", "MASK_INCORRECT"]

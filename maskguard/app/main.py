@@ -19,8 +19,12 @@ app.include_router(pages.router, tags=["Pages"])
 
 # Mount static files
 static_dir = Path(__file__).resolve().parent / "static"
-static_dir.mkdir(parents=True, exist_ok=True)
-app.mount("/static", StaticFiles(directory=str(static_dir)), name="static")
+try:
+    static_dir.mkdir(parents=True, exist_ok=True)
+except OSError:
+    pass  # read-only filesystem (e.g. Vercel)
+if static_dir.is_dir():
+    app.mount("/static", StaticFiles(directory=str(static_dir)), name="static")
 
 # Mount data files for serving outputs — only when the directory exists
 # (on Vercel the data dir lives under /tmp and may not exist yet)
