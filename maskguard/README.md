@@ -190,6 +190,26 @@ fly secrets set DUMMY_MODEL=true
 fly deploy
 ```
 
+### Deploy to Vercel (limited mode)
+
+> ⚠️ Vercel runs this app in serverless mode, so WebSocket live detection and long video processing are limited.
+
+1. Import the GitHub repository in Vercel
+2. Set **Root Directory** to `maskguard`
+3. Add environment variables:
+   ```
+   DUMMY_MODEL=true
+   ALERT_COOLDOWN_SECONDS=10
+   SNAPSHOTS_ENABLED=false
+   DB_PATH=/tmp/events.db
+   UPLOADS_DIR=/tmp/uploads
+   OUTPUTS_DIR=/tmp/outputs
+   CAPTURES_DIR=/tmp/captures
+   ```
+4. Deploy
+
+For full step-by-step instructions, see `DEPLOYMENT.md`.
+
 ## 🔧 Configuration
 
 ### Environment Variables
@@ -381,3 +401,4 @@ For issues and questions:
 ---
 
 **Built with ❤️ for mask compliance monitoring**
+

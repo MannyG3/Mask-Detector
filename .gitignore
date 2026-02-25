@@ -1,0 +1,15 @@
+__pycache__/
+*.pyc
+*.pyo
+.env
+*.db
+data/uploads/*
+data/outputs/*
+data/captures/*
+data/logs/*.db
+!data/**/.gitkeep
+.venv/
+.vscode/
+*.egg-info/
+dist/
+build/

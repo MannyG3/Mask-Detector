@@ -2,18 +2,21 @@
   "version": 2,
   "builds": [
     {
-      "src": "app/main.py",
-      "use": "@vercel/python"
+      "src": "api/index.py",
+      "use": "@vercel/python",
+      "config": {
+        "includeFiles": [
+          "app/**",
+          "data/**",
+          "requirements.txt"
+        ]
+      }
     }
   ],
   "routes": [
     {
-      "src": "/static/(.*)",
-      "dest": "/app/static/$1"
-    },
-    {
       "src": "/(.*)",
-      "dest": "app/main.py"
+      "dest": "api/index.py"
     }
   ],
   "env": {
@@ -21,11 +24,12 @@
     "ALERT_COOLDOWN_SECONDS": "10",
     "SNAPSHOTS_ENABLED": "false",
     "DB_PATH": "/tmp/events.db",
-    "UPLOAD_DIR": "/tmp/uploads",
-    "OUTPUT_DIR": "/tmp/outputs"
+    "UPLOADS_DIR": "/tmp/uploads",
+    "OUTPUTS_DIR": "/tmp/outputs",
+    "CAPTURES_DIR": "/tmp/captures"
   },
   "functions": {
-    "app/main.py": {
+    "api/index.py": {
       "maxDuration": 60
     }
   }

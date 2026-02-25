@@ -18,13 +18,15 @@ app.include_router(ws.router, tags=["WebSocket"])
 app.include_router(pages.router, tags=["Pages"])
 
 # Mount static files
-static_dir = Path(__file__).parent / "static"
+static_dir = Path(__file__).resolve().parent / "static"
 static_dir.mkdir(parents=True, exist_ok=True)
 app.mount("/static", StaticFiles(directory=str(static_dir)), name="static")
 
-# Mount data files for serving outputs
-data_dir = Path(__file__).parent.parent / "data"
-app.mount("/files", StaticFiles(directory=str(data_dir)), name="files")
+# Mount data files for serving outputs — only when the directory exists
+# (on Vercel the data dir lives under /tmp and may not exist yet)
+data_dir = Path(__file__).resolve().parent.parent / "data"
+if data_dir.is_dir():
+    app.mount("/files", StaticFiles(directory=str(data_dir)), name="files")
 
 @app.on_event("startup")
 async def startup_event():

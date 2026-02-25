@@ -13,7 +13,7 @@ from app.config import (
 router = APIRouter()
 
 # Setup Jinja2 templates
-templates_dir = Path(__file__).parent.parent / "templates"
+templates_dir = Path(__file__).resolve().parent.parent / "templates"
 templates = Jinja2Templates(directory=str(templates_dir))
 
 @router.get("/", response_class=HTMLResponse)

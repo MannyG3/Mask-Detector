@@ -1,75 +1,130 @@
-# Vercel Deployment Guide for MaskGuard
+# Vercel Deployment Guide (MaskGuard)
 
-## ⚠️ Important Limitations
+This guide deploys the `maskguard/` app to Vercel with the existing serverless adapter in `api/index.py`.
 
-Vercel is **NOT recommended** for this application due to:
+## Known limitations on Vercel
 
-1. **No WebSocket Support** - Live camera detection will not work
-2. **60-second timeout** - Video processing will fail for longer videos
-3. **Ephemeral filesystem** - Database resets on each deployment
-4. **Serverless architecture** - Background jobs won't work
+MaskGuard is a real-time CV app, and Vercel serverless has constraints:
 
-## Recommended Alternatives
+1. **No stable WebSocket session support** for this architecture (live camera mode is not reliable)
+2. **Function timeout** (configured to 60s) affects long video jobs
+3. **Ephemeral filesystem** (`/tmp` only, reset between invocations)
+4. **No persistent background workers** for long-running processing
 
-For full functionality, deploy to:
-- **Railway** (recommended) - `railway up`
-- **Render** - Connect GitHub repo
-- **Fly.io** - `fly launch`
-- **Google Cloud Run** - Container-based deployment
+Use Vercel for demo/static + basic API usage. For full production features, prefer Railway/Render/Fly.io.
 
-## Deploy to Vercel (Limited Functionality)
+## What works after deployment
 
-If you still want to try Vercel:
+- Homepage and page routes
+- Image upload endpoint
+- Basic dashboard rendering
+- Static assets and templates
 
-### Prerequisites
+## What will not be production-ready on Vercel
+
+- Live webcam WebSocket pipeline
+- Long video processing jobs
+- Persistent event history in SQLite
+
+## Prerequisites
+
+- A Vercel account
+- Repository pushed to GitHub
+- Vercel CLI installed (optional but recommended)
+
 ```bash
 npm install -g vercel
 ```
 
-### Deploy
-```bash
-cd maskguard
-vercel
-```
+## Option A: Deploy from Vercel Dashboard (recommended)
 
-### What Works on Vercel
-- ✅ Homepage
-- ✅ Image upload detection
-- ✅ Dashboard (view-only, no persistent data)
-- ✅ Static files
+1. In Vercel, click **Add New Project** and import your GitHub repo.
+2. In **Project Settings** during import:
+	- **Framework Preset**: `Other`
+	- **Root Directory**: `maskguard`
+	- **Build Command**: leave empty
+	- **Output Directory**: leave empty
+3. Add these environment variables:
 
-### What Doesn't Work
-- ❌ Live webcam detection (WebSocket)
-- ❌ Video processing (timeout)
-- ❌ Persistent logging (ephemeral storage)
-- ❌ Background jobs
-
-## Environment Variables
-
-Set these in Vercel dashboard:
-```
+```env
 DUMMY_MODEL=true
 ALERT_COOLDOWN_SECONDS=10
 SNAPSHOTS_ENABLED=false
+DB_PATH=/tmp/events.db
+UPLOADS_DIR=/tmp/uploads
+OUTPUTS_DIR=/tmp/outputs
+CAPTURES_DIR=/tmp/captures
 ```
 
-## Better Deployment: Railway
+4. Click **Deploy**.
+
+## Option B: Deploy with CLI
+
+From repo root:
 
 ```bash
-# Install Railway CLI
-npm install -g @railway/cli
-
-# Login
-railway login
-
-# Deploy
 cd maskguard
-railway init
-railway up
+vercel login
+vercel
 ```
 
-Railway supports:
-- ✅ WebSockets
-- ✅ Long-running processes
-- ✅ Persistent volumes
-- ✅ PostgreSQL/SQLite databases
+When prompted:
+- Link to existing project: choose as needed
+- Set project root: current directory (`maskguard`)
+
+Deploy to production:
+
+```bash
+vercel --prod
+```
+
+Set environment variables via CLI:
+
+```bash
+vercel env add DUMMY_MODEL production
+vercel env add ALERT_COOLDOWN_SECONDS production
+vercel env add SNAPSHOTS_ENABLED production
+vercel env add DB_PATH production
+vercel env add UPLOADS_DIR production
+vercel env add OUTPUTS_DIR production
+vercel env add CAPTURES_DIR production
+```
+
+Redeploy after env changes:
+
+```bash
+vercel --prod
+```
+
+## Verify deployment
+
+Replace `<your-url>` with your Vercel domain:
+
+```bash
+curl -s https://<your-url>/api/health
+curl -I https://<your-url>/static/css/app.css
+```
+
+Health should return JSON and static CSS should return `200`.
+
+## Troubleshooting
+
+### 404 on every route
+- Confirm Vercel project **Root Directory** is `maskguard`
+- Confirm `vercel.json` exists at `maskguard/vercel.json`
+
+### Static or template files missing
+- Confirm deployment uses `api/index.py` entrypoint
+- Re-deploy after pulling latest `vercel.json`
+
+### Data/logs disappear
+- Expected on Vercel serverless due to ephemeral filesystem
+- Move to managed database/storage for persistence
+
+## Recommended production platforms for full features
+
+- **Railway** (simple, supports long-running services)
+- **Render** (easy GitHub-based deploy)
+- **Fly.io** (container + persistent volumes)
+
+These platforms better match MaskGuard’s WebSocket and background-processing requirements.
