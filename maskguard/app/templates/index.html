@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+
+{% block title %}MaskGuard - Home{% endblock %}
+
+{% block content %}
+<div class="container">
+    <section class="hero">
+        <h1 class="hero-title">🛡️ MaskGuard</h1>
+        <p class="hero-subtitle">Advanced Real-Time Mask Detection System</p>
+        <p class="hero-description">
+            Monitor mask usage compliance in real-time with AI-powered detection.
+            Supports live webcam monitoring, image uploads, and video analysis.
+        </p>
+    </section>
+
+    <section class="features">
+        <div class="feature-grid">
+            <div class="feature-card">
+                <div class="feature-icon">📹</div>
+                <h3>Live Detection</h3>
+                <p>Real-time webcam monitoring with face tracking and instant alerts</p>
+                <a href="/live" class="btn btn-primary">Start Live</a>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">🖼️</div>
+                <h3>Image Analysis</h3>
+                <p>Upload images for instant mask detection and compliance analysis</p>
+                <a href="/upload/image" class="btn btn-primary">Upload Image</a>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">🎥</div>
+                <h3>Video Processing</h3>
+                <p>Process video files with frame-by-frame detection and reporting</p>
+                <a href="/upload/video" class="btn btn-primary">Upload Video</a>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">📊</div>
+                <h3>Dashboard</h3>
+                <p>View statistics, logs, and export compliance reports</p>
+                <a href="/dashboard" class="btn btn-primary">View Dashboard</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="detection-classes">
+        <h2>Detection Classes</h2>
+        <div class="class-grid">
+            <div class="class-card class-success">
+                <div class="class-icon">✅</div>
+                <h4>MASK_ON</h4>
+                <p>Mask properly worn covering nose and mouth</p>
+            </div>
+            <div class="class-card class-danger">
+                <div class="class-icon">❌</div>
+                <h4>NO_MASK</h4>
+                <p>No mask detected on person's face</p>
+            </div>
+            <div class="class-card class-warning">
+                <div class="class-icon">⚠️</div>
+                <h4>MASK_INCORRECT</h4>
+                <p>Mask worn incorrectly (below nose)</p>
+            </div>
+        </div>
+    </section>
+</div>
+{% endblock %}

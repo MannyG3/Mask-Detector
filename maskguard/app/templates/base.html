@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}MaskGuard{% endblock %}</title>
+    <link rel="stylesheet" href="/static/css/app.css">
+    {% block extra_head %}{% endblock %}
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-brand">
+                <span class="logo">🛡️</span>
+                <span class="brand-name">MaskGuard</span>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="/" class="{% if page == 'home' %}active{% endif %}">Home</a></li>
+                <li><a href="/live" class="{% if page == 'live' %}active{% endif %}">Live</a></li>
+                <li><a href="/upload/image" class="{% if page == 'upload_image' %}active{% endif %}">Image</a></li>
+                <li><a href="/upload/video" class="{% if page == 'upload_video' %}active{% endif %}">Video</a></li>
+                <li><a href="/dashboard" class="{% if page == 'dashboard' %}active{% endif %}">Dashboard</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="main-content">
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2026 MaskGuard - Advanced Mask Detection System</p>
+        </div>
+    </footer>
+
+    {% block extra_scripts %}{% endblock %}
+</body>
+</html>

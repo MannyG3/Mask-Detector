@@ -1,0 +1,110 @@
+{% extends "base.html" %}
+
+{% block title %}Live Detection - MaskGuard{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="page-header">
+        <h1>📹 Live Mask Detection</h1>
+        <p>Real-time webcam monitoring with face tracking</p>
+    </div>
+
+    <div class="live-container">
+        <div class="video-section">
+            <div class="video-wrapper">
+                <video id="webcam" autoplay playsinline></video>
+                <canvas id="overlay"></canvas>
+            </div>
+            
+            <div class="status-bar">
+                <div class="status-chip" id="status-chip">
+                    <span class="status-dot"></span>
+                    <span id="status-text">Stopped</span>
+                </div>
+                <div class="status-chip">
+                    <span>👥 Faces: <strong id="faces-count">0</strong></span>
+                </div>
+                <div class="status-chip">
+                    <span>⚠️ Violations: <strong id="violations-count">0</strong></span>
+                </div>
+                <div class="status-chip">
+                    <span>📊 FPS: <strong id="fps-display">0</strong></span>
+                </div>
+            </div>
+
+            <div class="controls">
+                <button id="start-btn" class="btn btn-success">Start Camera</button>
+                <button id="stop-btn" class="btn btn-danger" disabled>Stop Camera</button>
+            </div>
+        </div>
+
+        <div class="settings-panel">
+            <h3>Settings</h3>
+            
+            <div class="setting-group">
+                <label for="confidence-threshold">
+                    Confidence Threshold: <strong id="threshold-value">0.5</strong>
+                </label>
+                <input 
+                    type="range" 
+                    id="confidence-threshold" 
+                    min="0" 
+                    max="1" 
+                    step="0.05" 
+                    value="0.5"
+                    class="slider"
+                >
+            </div>
+
+            <div class="setting-group">
+                <label for="fps-cap">
+                    FPS Cap: <strong id="fps-value">{{ default_fps }}</strong>
+                </label>
+                <select id="fps-cap" class="select">
+                    <option value="3">3 FPS</option>
+                    <option value="5" {% if default_fps == 5 %}selected{% endif %}>5 FPS</option>
+                    <option value="10">10 FPS</option>
+                    <option value="15">15 FPS</option>
+                </select>
+            </div>
+
+            <div class="setting-group">
+                <label for="cooldown-seconds">
+                    Alert Cooldown (seconds): <strong id="cooldown-value">{{ default_cooldown }}</strong>
+                </label>
+                <input 
+                    type="number" 
+                    id="cooldown-seconds" 
+                    min="1" 
+                    max="60" 
+                    value="{{ default_cooldown }}"
+                    class="input-number"
+                >
+            </div>
+
+            <div class="setting-group">
+                <label class="checkbox-label">
+                    <input type="checkbox" id="enable-snapshots" {% if snapshots_enabled %}checked{% endif %}>
+                    <span>Enable Snapshots</span>
+                </label>
+            </div>
+
+            <div class="setting-group">
+                <label class="checkbox-label">
+                    <input type="checkbox" id="enable-sound" checked>
+                    <span>Enable Sound Alerts</span>
+                </label>
+            </div>
+
+            <div class="detections-log">
+                <h4>Recent Detections</h4>
+                <div id="detections-list" class="log-list"></div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script src="/static/js/live.js"></script>
+{% endblock %}

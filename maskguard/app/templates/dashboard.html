@@ -1,0 +1,130 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard - MaskGuard{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="page-header">
+        <h1>📊 Detection Dashboard</h1>
+        <p>Monitor detection statistics and export logs</p>
+    </div>
+
+    <div class="dashboard-stats">
+        <div class="stat-card">
+            <div class="stat-icon">📝</div>
+            <div class="stat-content">
+                <div class="stat-value">{{ stats.total }}</div>
+                <div class="stat-label">Total Events</div>
+            </div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-icon">✅</div>
+            <div class="stat-content">
+                <div class="stat-value">{{ stats.by_label.get('MASK_ON', 0) }}</div>
+                <div class="stat-label">Mask On</div>
+            </div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-icon">❌</div>
+            <div class="stat-content">
+                <div class="stat-value">{{ stats.by_label.get('NO_MASK', 0) }}</div>
+                <div class="stat-label">No Mask</div>
+            </div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-icon">⚠️</div>
+            <div class="stat-content">
+                <div class="stat-value">{{ stats.by_label.get('MASK_INCORRECT', 0) }}</div>
+                <div class="stat-label">Incorrect</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="dashboard-content">
+        <div class="logs-section">
+            <div class="section-header">
+                <h3>Event Logs</h3>
+                <button id="export-btn" class="btn btn-secondary">
+                    Export CSV
+                </button>
+            </div>
+
+            <div class="filters">
+                <select id="filter-source" class="select">
+                    <option value="">All Sources</option>
+                    <option value="live" {% if filter_source == 'live' %}selected{% endif %}>Live</option>
+                    <option value="image" {% if filter_source == 'image' %}selected{% endif %}>Image</option>
+                    <option value="video" {% if filter_source == 'video' %}selected{% endif %}>Video</option>
+                </select>
+
+                <select id="filter-label" class="select">
+                    <option value="">All Labels</option>
+                    {% for label in labels %}
+                    <option value="{{ label }}" {% if filter_label == label %}selected{% endif %}>{{ label }}</option>
+                    {% endfor %}
+                </select>
+
+                <input 
+                    type="date" 
+                    id="filter-start-date" 
+                    class="input-date"
+                    placeholder="Start Date"
+                    value="{{ filter_start_date or '' }}"
+                >
+
+                <input 
+                    type="date" 
+                    id="filter-end-date" 
+                    class="input-date"
+                    placeholder="End Date"
+                    value="{{ filter_end_date or '' }}"
+                >
+
+                <button id="apply-filters-btn" class="btn btn-primary">
+                    Apply Filters
+                </button>
+                <button id="clear-filters-btn" class="btn btn-secondary">
+                    Clear
+                </button>
+            </div>
+
+            <div class="logs-table-wrapper">
+                <table class="logs-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Timestamp</th>
+                            <th>Source</th>
+                            <th>Label</th>
+                            <th>Confidence</th>
+                            <th>Track ID</th>
+                        </tr>
+                    </thead>
+                    <tbody id="logs-tbody">
+                        {% for log in logs %}
+                        <tr>
+                            <td>{{ log.id }}</td>
+                            <td>{{ log.ts[:19] }}</td>
+                            <td><span class="badge badge-{{ log.source }}">{{ log.source }}</span></td>
+                            <td><span class="badge badge-{{ log.label|lower|replace('_', '-') }}">{{ log.label }}</span></td>
+                            <td>{{ "%.2f"|format(log.confidence) }}</td>
+                            <td>{{ log.track_id or '-' }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+            {% if logs|length == 0 %}
+            <div class="empty-state">
+                <p>No events logged yet. Start using the detection features!</p>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script src="/static/js/dashboard.js"></script>
+{% endblock %}

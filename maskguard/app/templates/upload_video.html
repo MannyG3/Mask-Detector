@@ -1,0 +1,125 @@
+{% extends "base.html" %}
+
+{% block title %}Upload Video - MaskGuard{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="page-header">
+        <h1>🎥 Video Mask Detection</h1>
+        <p>Upload a video for frame-by-frame mask detection analysis</p>
+    </div>
+
+    <div class="upload-container">
+        <div class="upload-section">
+            <form id="video-form" class="upload-form">
+                <div class="file-input-wrapper">
+                    <input 
+                        type="file" 
+                        id="video-input" 
+                        accept="video/*" 
+                        required
+                        class="file-input"
+                    >
+                    <label for="video-input" class="file-label">
+                        <span class="file-icon">📁</span>
+                        <span id="file-name">Click to select video (max 50MB)</span>
+                    </label>
+                </div>
+                
+                <button type="submit" class="btn btn-primary btn-large">
+                    Process Video
+                </button>
+            </form>
+
+            <div id="upload-status" class="status-message" style="display: none;"></div>
+        </div>
+
+        <div id="progress-section" class="progress-section" style="display: none;">
+            <h3>Processing Video</h3>
+            
+            <div class="progress-bar-container">
+                <div class="progress-bar">
+                    <div id="progress-fill" class="progress-fill"></div>
+                </div>
+                <div class="progress-text">
+                    <span id="progress-percent">0%</span>
+                    <span id="progress-status">Initializing...</span>
+                </div>
+            </div>
+
+            <div id="job-info" class="job-info">
+                <p>Job ID: <strong id="job-id"></strong></p>
+                <p>Status: <strong id="job-status">pending</strong></p>
+            </div>
+        </div>
+
+        <div id="results-section" class="results-section" style="display: none;">
+            <h3>Results</h3>
+
+            <div class="result-actions">
+                <a id="download-link" href="#" class="btn btn-success" download>
+                    Download Annotated Video
+                </a>
+                <button id="process-another-btn" class="btn btn-secondary">
+                    Process Another Video
+                </button>
+            </div>
+
+            <div class="summary-cards">
+                <div class="summary-card">
+                    <div class="summary-icon">🎞️</div>
+                    <div class="summary-content">
+                        <div class="summary-value" id="total-frames">0</div>
+                        <div class="summary-label">Total Frames</div>
+                    </div>
+                </div>
+                <div class="summary-card">
+                    <div class="summary-icon">🔍</div>
+                    <div class="summary-content">
+                        <div class="summary-value" id="processed-frames">0</div>
+                        <div class="summary-label">Processed</div>
+                    </div>
+                </div>
+                <div class="summary-card">
+                    <div class="summary-icon">👥</div>
+                    <div class="summary-content">
+                        <div class="summary-value" id="total-detections">0</div>
+                        <div class="summary-label">Detections</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="label-distribution">
+                <h4>Detection Distribution</h4>
+                <div class="distribution-bars">
+                    <div class="distribution-item">
+                        <span class="distribution-label">MASK_ON</span>
+                        <div class="distribution-bar-container">
+                            <div id="bar-mask-on" class="distribution-bar bar-success"></div>
+                        </div>
+                        <span id="count-mask-on" class="distribution-count">0</span>
+                    </div>
+                    <div class="distribution-item">
+                        <span class="distribution-label">NO_MASK</span>
+                        <div class="distribution-bar-container">
+                            <div id="bar-no-mask" class="distribution-bar bar-danger"></div>
+                        </div>
+                        <span id="count-no-mask" class="distribution-count">0</span>
+                    </div>
+                    <div class="distribution-item">
+                        <span class="distribution-label">MASK_INCORRECT</span>
+                        <div class="distribution-bar-container">
+                            <div id="bar-incorrect" class="distribution-bar bar-warning"></div>
+                        </div>
+                        <span id="count-incorrect" class="distribution-count">0</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script src="/static/js/upload.js"></script>
+{% endblock %}

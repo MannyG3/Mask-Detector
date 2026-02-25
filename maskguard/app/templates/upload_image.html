@@ -1,0 +1,106 @@
+{% extends "base.html" %}
+
+{% block title %}Upload Image - MaskGuard{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="page-header">
+        <h1>🖼️ Image Mask Detection</h1>
+        <p>Upload an image for instant mask detection analysis</p>
+    </div>
+
+    <div class="upload-container">
+        <div class="upload-section">
+            <form id="image-form" class="upload-form">
+                <div class="file-input-wrapper">
+                    <input 
+                        type="file" 
+                        id="image-input" 
+                        accept="image/*" 
+                        required
+                        class="file-input"
+                    >
+                    <label for="image-input" class="file-label">
+                        <span class="file-icon">📁</span>
+                        <span id="file-name">Click to select image</span>
+                    </label>
+                </div>
+                
+                <button type="submit" class="btn btn-primary btn-large">
+                    Analyze Image
+                </button>
+            </form>
+
+            <div id="preview-section" class="preview-section" style="display: none;">
+                <h3>Preview</h3>
+                <img id="preview-image" class="preview-image" alt="Preview">
+            </div>
+        </div>
+
+        <div id="results-section" class="results-section" style="display: none;">
+            <h3>Results</h3>
+            
+            <div id="loading" class="loading" style="display: none;">
+                <div class="spinner"></div>
+                <p>Analyzing image...</p>
+            </div>
+
+            <div id="results-content" style="display: none;">
+                <div class="result-image-wrapper">
+                    <img id="result-image" class="result-image" alt="Annotated Result">
+                </div>
+
+                <div class="summary-cards">
+                    <div class="summary-card">
+                        <div class="summary-icon">👥</div>
+                        <div class="summary-content">
+                            <div class="summary-value" id="total-faces">0</div>
+                            <div class="summary-label">Total Faces</div>
+                        </div>
+                    </div>
+                    <div class="summary-card">
+                        <div class="summary-icon">✅</div>
+                        <div class="summary-content">
+                            <div class="summary-value" id="mask-on-count">0</div>
+                            <div class="summary-label">Mask On</div>
+                        </div>
+                    </div>
+                    <div class="summary-card">
+                        <div class="summary-icon">❌</div>
+                        <div class="summary-content">
+                            <div class="summary-value" id="no-mask-count">0</div>
+                            <div class="summary-label">No Mask</div>
+                        </div>
+                    </div>
+                    <div class="summary-card">
+                        <div class="summary-icon">⚠️</div>
+                        <div class="summary-content">
+                            <div class="summary-value" id="incorrect-count">0</div>
+                            <div class="summary-label">Incorrect</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="detections-table">
+                    <h4>Detections</h4>
+                    <table id="detections-table">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Label</th>
+                                <th>Confidence</th>
+                                <th>Bounding Box</th>
+                            </tr>
+                        </thead>
+                        <tbody id="detections-tbody"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script src="/static/js/upload.js"></script>
+{% endblock %}
