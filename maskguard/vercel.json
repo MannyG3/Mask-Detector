@@ -1,0 +1,32 @@
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "app/main.py",
+      "use": "@vercel/python"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/static/(.*)",
+      "dest": "/app/static/$1"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "app/main.py"
+    }
+  ],
+  "env": {
+    "DUMMY_MODEL": "true",
+    "ALERT_COOLDOWN_SECONDS": "10",
+    "SNAPSHOTS_ENABLED": "false",
+    "DB_PATH": "/tmp/events.db",
+    "UPLOAD_DIR": "/tmp/uploads",
+    "OUTPUT_DIR": "/tmp/outputs"
+  },
+  "functions": {
+    "app/main.py": {
+      "maxDuration": 60
+    }
+  }
+}
