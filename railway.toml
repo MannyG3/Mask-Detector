@@ -1,0 +1,13 @@
+[build]
+builder = "dockerfile"
+
+[deploy]
+startCommand = "cd maskguard && python -m uvicorn app.main:app --host 0.0.0.0 --port $PORT"
+restartPolicyType = "on_failure"
+restartPolicyMaxRetries = 5
+
+[env]
+DUMMY_MODEL = "true"
+ALERT_COOLDOWN_SECONDS = "10"
+SNAPSHOTS_ENABLED = "false"
+DEBUG = "false"
