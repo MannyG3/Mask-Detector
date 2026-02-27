@@ -3,6 +3,9 @@
 [![Python 3.11+](https://img.shields.io/badge/python-3.11+-blue.svg)](https://www.python.org/downloads/)
 [![FastAPI](https://img.shields.io/badge/FastAPI-0.109-green.svg)](https://fastapi.tiangolo.com/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Live Demo](https://img.shields.io/badge/Live%20Demo-Railway-blueviolet.svg)](https://maskdetector.up.railway.app)
+
+**🚀 Live Demo: [https://maskdetector.up.railway.app](https://maskdetector.up.railway.app)**
 
 A production-ready web application for real-time mask detection with live webcam monitoring, image upload analysis, and video processing. Built with FastAPI, MediaPipe, and TensorFlow.
 
