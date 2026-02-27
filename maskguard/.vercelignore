@@ -1,0 +1,26 @@
+# Vercel deployment ignore patterns
+__pycache__
+*.pyc
+*.pyo
+*.pyd
+.Python
+.venv
+venv/
+env/
+.env.local
+.git
+.gitignore
+.DS_Store
+tests/
+*.md
+data/logs/*
+data/uploads/*
+data/outputs/*
+.pytest_cache
+.coverage
+node_modules/
+.next/
+build/
+dist/
+*.egg-info/
+.mypy_cache
