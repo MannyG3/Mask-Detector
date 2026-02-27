@@ -1,54 +1,68 @@
-# 🛡️ MaskGuard - Advanced Mask Detection System
+# MaskGuard - Advanced Mask Detection System
 
 [![Python 3.11+](https://img.shields.io/badge/python-3.11+-blue.svg)](https://www.python.org/downloads/)
 [![FastAPI](https://img.shields.io/badge/FastAPI-0.109-green.svg)](https://fastapi.tiangolo.com/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Live Demo](https://img.shields.io/badge/Live%20Demo-Railway-blueviolet.svg)](https://maskdetector.up.railway.app)
 
-**🚀 Live Demo: [https://maskdetector.up.railway.app](https://maskdetector.up.railway.app)**
+**Live Demo: [https://maskdetector.up.railway.app](https://maskdetector.up.railway.app)**
 
 A production-ready web application for real-time mask detection with live webcam monitoring, image upload analysis, and video processing. Built with FastAPI, MediaPipe, and TensorFlow.
 
-## ✨ Features
+## Table of Contents
 
-### 🎯 Detection Capabilities
+- [Features](#features)
+- [Architecture](#architecture)
+- [Quick Start](#quick-start)
+- [Deployment](#deployment)
+- [Configuration](#configuration)
+- [API Documentation](#api-documentation)
+- [Testing](#testing)
+- [Usage Examples](#usage-examples)
+- [Troubleshooting](#troubleshooting)
+- [Database Schema](#database-schema)
+- [License](#license)
+
+## Features
+
+### Detection Capabilities
 - **3-Class Detection**: MASK_ON, NO_MASK, MASK_INCORRECT (mask below nose)
 - **MediaPipe Face Detection**: Robust face detection in various conditions
 - **Face Tracking**: Centroid-based tracking to reduce flicker and enable smart alerts
 - **Cooldown Alerts**: Prevent alert spam with configurable cooldown periods
 
-### 📹 Live Webcam Monitoring
+### Live Webcam Monitoring
 - Real-time webcam stream processing with WebRTC
 - Canvas overlay with bounding boxes and labels
 - Configurable FPS cap (3/5/10/15 FPS)
 - Sound alerts for violations (Web Audio API)
 - Live statistics: face count, violations, FPS
 
-### 🖼️ Image Upload
+### Image Upload
 - Upload images for instant analysis
 - Annotated output with bounding boxes
 - Detection summary and detailed results table
 - Automatic logging to database
 
-### 🎥 Video Processing
+### Video Processing
 - Async video processing with progress tracking
 - Frame-by-frame analysis with configurable sampling rate
 - Annotated output video generation
 - Detection statistics and distribution charts
 
-### 📊 Dashboard
+### Dashboard
 - Event logs with filtering (source, label, date range)
 - Statistics cards (total events, label distribution)
 - CSV export for compliance reports
 - Real-time stats updates
 
-### 🔧 Advanced Features
+### Advanced Features
 - **Dummy Model Mode**: Run without a trained model for testing/demo
 - **SQLite Logging**: All detections logged with metadata
 - **Snapshot Capture**: Optional screenshot saves for violations
 - **Production-Ready**: Dockerized, deployable to Render/Railway/Fly.io
 
-## 🏗️ Architecture
+## Architecture
 
 ```
 maskguard/
@@ -85,7 +99,7 @@ maskguard/
 └── README.md
 ```
 
-## 🚀 Quick Start
+## Quick Start
 
 ### Local Development (Codespaces/Local Machine)
 
@@ -127,7 +141,7 @@ docker build -t maskguard .
 docker run -p 8000:8000 -e DUMMY_MODEL=true maskguard
 ```
 
-## 🌐 Deployment
+## Deployment
 
 ### Deploy to Render
 
@@ -147,7 +161,7 @@ docker run -p 8000:8000 -e DUMMY_MODEL=true maskguard
    MAX_VIDEO_MB=50
    ```
 
-5. **Deploy!** Render will automatically build and deploy your app.
+5. **Deploy** - Render will automatically build and deploy your app.
 
 ### Deploy to Railway
 
@@ -193,9 +207,9 @@ fly secrets set DUMMY_MODEL=true
 fly deploy
 ```
 
-### Deploy to Vercel (limited mode)
+### Deploy to Vercel (Limited Mode)
 
-> ⚠️ Vercel runs this app in serverless mode, so WebSocket live detection and long video processing are limited.
+> **Note**: Vercel runs this app in serverless mode, so WebSocket live detection and long video processing are limited.
 
 1. Import the GitHub repository in Vercel
 2. Set **Root Directory** to `maskguard`
@@ -213,7 +227,7 @@ fly deploy
 
 For full step-by-step instructions, see `DEPLOYMENT.md`.
 
-## 🔧 Configuration
+## Configuration
 
 ### Environment Variables
 
@@ -255,7 +269,7 @@ DUMMY_MODEL=false
 - Normalization: [0, 1]
 - Format: Keras/TensorFlow model
 
-## 📖 API Documentation
+## API Documentation
 
 Once running, visit:
 - **Interactive API docs**: http://localhost:8000/docs
@@ -277,7 +291,7 @@ Once running, visit:
 | GET | `/api/logs/export.csv` | Export logs as CSV |
 | WS | `/ws/live` | WebSocket for live detection |
 
-## 🧪 Testing
+## Testing
 
 Run the test suite:
 ```bash
@@ -290,7 +304,7 @@ Or run specific test:
 python tests/test_health.py
 ```
 
-## 🎯 Usage Examples
+## Usage Examples
 
 ### Live Detection
 1. Go to `/live` page
@@ -321,7 +335,7 @@ python tests/test_health.py
 3. Filter logs by source, label, or date
 4. Export logs as CSV for reports
 
-## 🛠️ Troubleshooting
+## Troubleshooting
 
 ### Webcam not working in live mode
 - Ensure browser has camera permissions
@@ -346,9 +360,9 @@ python tests/test_health.py
 ### Jobs reset on server restart
 - This is expected behavior for in-memory job queue
 - In production, you can implement persistent job storage
-- Document uploaded videos are preserved in `data/uploads/`
+- Uploaded videos are preserved in `data/uploads/`
 
-## 📊 Database Schema
+## Database Schema
 
 ### Events Table
 ```sql
@@ -364,18 +378,18 @@ CREATE TABLE events (
 );
 ```
 
-## 📝 License
+## License
 
-MIT License - see LICENSE file for details
+MIT License - see LICENSE file for details.
 
-## 🙏 Acknowledgments
+## Acknowledgments
 
 - **FastAPI** - Modern web framework
 - **MediaPipe** - Robust face detection
 - **TensorFlow** - Deep learning framework
 - **OpenCV** - Computer vision library
 
-## 🤝 Contributing
+## Contributing
 
 Contributions are welcome! Please:
 1. Fork the repository
@@ -384,14 +398,14 @@ Contributions are welcome! Please:
 4. Add tests if applicable
 5. Submit a pull request
 
-## 📧 Support
-                     
+## Support
+
 For issues and questions:
 - Open an issue on GitHub
 - Check existing issues for solutions
 - Review troubleshooting section
 
-## 🔄 Changelog
+## Changelog
 
 ### Version 1.0.0
 - Initial release
@@ -403,6 +417,4 @@ For issues and questions:
 
 ---
 
-**Built with ❤️ for mask compliance monitoring**
-
-csavas
+**MaskGuard - Mask Compliance Monitoring System**
